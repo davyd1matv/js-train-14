@@ -333,14 +333,19 @@ console.log(getDayOfWeek(new Date("2023-01-01")));
  * }
  */
 function getDaysInMonth(date) {
-  if (!(typeof date.getTime() === "function")) {
+  if (!(typeof date.getTime === "function")) {
     return "Помилка: вхідне значення має бути об'єктом Date";
   }
 
   const inputDate = date.toISOString();
-  const currentMonth = date.getMonth();
-  const currentYear = date.getFullYear();
+  const month = date.getMonth();
+  const year = date.getFullYear();
 
+  let nextMonth = new Date(year, month + 1, 1);
+  nextMonth.setDate(nextMonth.getDate() - 1);
+  let daysInMonth = nextMonth.getDate();
+
+  return { inputDate, daysInMonth };
   // const nextMonth=new Date(year,next 1+1)
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
@@ -475,15 +480,16 @@ function compareDates(date1, date2) {
     return "Помилка: вхідне значення має бути об'єктом Date";
   }
 
-  if (date1 < date2) {
-    return -1;
-  } else if (date1 === date2) {
-    return 0;
-  } else {
-    return 1;
-  }
+  const comparison = date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
 
-  const comparison = new Date();
+  let formarredDate1 = date1.toISOString();
+  let formarredDate2 = date2.toISOString();
+
+  return {
+    date1: formarredDate1,
+    date2: formarredDate2,
+    comparison,
+  };
   // Перевірка, чи є вхідні значення об'єктами Date.
   // Якщо date1 або date2 не є об'єктами Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
